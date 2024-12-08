@@ -38,3 +38,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#v Ignoring backup files.
+*.bk*
+*.*~
+bk_vers/
+bk_vers2/
