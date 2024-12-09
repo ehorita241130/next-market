@@ -9,15 +9,18 @@
 // On (2024 Nov 27).
 //######################################################################
 const cnt = 6;
+const trcLev = 2;
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-import { NextResponse } from "next/server";
-//import connectDB from "../../../utils/database";//Added
-//import { ItemModel } from "../../../utils/schemaModels";
+import { NextResponse } from 'next/server';
+//import connectDB from '../../../utils/database';//Added
+//import { ItemModel } from '../../../utils/schemaModels';
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 export async function POST(req){//<1
   const reqBody = await req.json();//New
-  console.log('-- api/item/create01/route.POST()#1:reqBody=');
-  console.dir(reqBody);
+  if( trcLev >= 2 ){
+    console.log('-- api/item/create01/route.POST()#1:reqBody=');
+    console.dir(reqBody);
+  }
   try{//<2
     //await connectDB();//Mdf.
     //await ItemModel.create(reqBody);//New
