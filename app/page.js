@@ -19,13 +19,15 @@ import Header from './components/header';//Added
 import Footer from './components/footer';//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 const url = 'http://localhost:3000/api/item/readall';
+const path = 'app/page';//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 async function getAllItems(){
   const response = await fetch(url);
   {cache: "no-store"};//Added
   const jsonData = await response.json();
   if( trcLev >= 2 ){
-    console.log('page.getAllItems()#1:jsonData='); console.dir(jsonData);//Tracing
+    console.log(`-- ${path}.getAllItems()#1:jsonData=`); 
+    console.dir(jsonData);//Tracing
   }
   //return response;//Added
   return jsonData;//Added
@@ -36,19 +38,23 @@ async function ReadAllItems(){//<1
   let message = items.message;
   let items1 = items.allItems;
   if( trcLev >= 2 ){
-    console.log('-- page.ReadAllItems()#1:items1='); console.dir(items1);
+    console.log(`-- ${path}.ReadAllItems()#1:items1=`); 
+    console.dir(items1);
   }
   if( items1 === undefined ){
     return (
+      //======================================================================
       <>
         <h3>Some errors in /app/page.js</h3>
       </>
+      //======================================================================
     );
   }
   let lgt1 = items1.length;
-  console.log(`-- page.ReadAllItems()#1:lgt1=${lgt1}`);
+  console.log(`-- ${path}.ReadAllItems()#1:lgt1=${lgt1}`);
   //======================================================================
   return (//<2
+    //======================================================================
     <>
       <Header/>
       <h3 style={{color:'red'}}>こんにちは． アイテム一覧：</h3>
@@ -72,14 +78,17 @@ async function ReadAllItems(){//<1
             if( image1.substr(0,1) !== '/' ){
               image1 = '/' + image1;
             }
-            rtn.push(<p>#{k+1}，Id：{id1}</p>);
-            rtn.push(<p>Title：{title1}，Price：{price1}円，Email：{email1}</p>);
-            rtn.push(<p>Link：<Link href={`${link1}`}>{id1}</Link></p>);
-            rtn.push(<p>Description：{description1}</p>);
-            rtn.push(<p>Image：{`"${image1}"`}</p>);
-            rtn.push(<p><Image src={image1} width={150} height={100} alt='item-image' priority/></p>);
-            //rtn.push(<img src={image1} height='100ex'/>);
-            rtn.push(<hr/>);
+            rtn.push(
+              <div key={k+1}>
+                <p>#{k+1}，Id：{id1}</p>                
+                <p>Title：{title1}，Price：{price1}円，Email：{email1}</p>
+                <p>Link：<Link href={`${link1}`}>{id1}</Link></p>
+                <p>Description：{description1}</p>
+                <p>Image：{`"${image1}"`}</p>
+                <p><Image src={image1} width={150} height={100} alt='item-image' priority/></p>
+                <hr/>
+              </div>
+            );
           }//_________________________________________________________END <LOOP.1>
           return rtn;
         })()//5>4>
@@ -87,6 +96,7 @@ async function ReadAllItems(){//<1
       <h3 style={{color:'red'}}>さようなら</h3>
       <Footer/>
     </>
+    //======================================================================
   );//2>
   //======================================================================
 }//1>

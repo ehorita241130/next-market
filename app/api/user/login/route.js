@@ -10,57 +10,62 @@
 //######################################################################
 const cnt = 8;//Added
 const trcLev = 2;//Added
-const plainPass = "next-market-app-book";//Added
+const plainSecret = "next-market-app-book";//Added
+const path = 'app/api/user/login';//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 import { NextResponse } from "next/server"
 import { SignJWT }      from "jose"
-import { jwtVerify }    from "jose";//Added
+import { jwtVerify }    from "jose";//Added for JSON Web Token (JWT).
 import connectDB        from "../../../utils/database"
 import { UserModel }    from "../../../utils/schemaModels"  
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 export async function POST(req){//<1
   const reqBody = await req.json();
-	const email = reqBody.email;//New
-  console.log(`user/login/route.POST():reqBody.email=${email}`);
+  const email = reqBody.email;//New
+  console.log(`-- ${path}/route.POST():reqBody.email=${email}`);
   try{//<2
     await connectDB();
     const savedUserData = await UserModel.findOne({email: email});
-    console.log('-- user/login/route.POST():findOne() done');
+    console.log(`-- ${path}/route.POST():findOne() done.`);
     if( trcLev >= 1 ){//<3
-      console.log('-- user/login/route.POST():savedUserData=');
+      console.log(`-- ${path}/route.POST():savedUserData=`);
       console.dir(savedUserData);
     }//3>
-    if( savedUserData ){//<3
+    if( savedUserData ){//<3. ユーザーデータが存在する場合の処理.
       if( reqBody.password === savedUserData.password ){//<4. パスワードが正しい場合の処理.
-        const secretKey = new TextEncoder().encode(plainPass);//Added
+        const secretKey = new TextEncoder().encode(plainSecret);//Added
         const payload = { email: email };//Added.
+        if( trcLev >= 2 ){//<5
+          console.log(`-- ${path}/route.POST():secretkey=`);//Tracing
+          console.dir(secretKey);//Tracing
+          console.log(`-- ${path}/route.POST():payload=`, payload);//Tracing
+        }//5>
         const token = 
           await new SignJWT(payload)
           .setProtectedHeader({alg: "HS256"})
-          .setExpirationTime("1d")
+          .setExpirationTime("1d")//Meaning 1 day.
           .sign(secretKey);
         if( trcLev >= 2 ){//<5
-          console.log('-- user/login/route.POST():secretkey=');//Tracing
-          console.dir(secretKey);//Tracing
-          console.log('-- user/login/route.POST():payload=', payload);//Tracing
-          console.log('-- user/login/route.POST():token='); console.dir(token);
+          console.log(`-- ${path}/route.POST():token=`); console.dir(token);
         }//5>
         const decodedJwt = await jwtVerify(token, secretKey);
         if( trcLev >= 2 ){//<5
-          console.log('-- user/login/route.POST():decodedJwt='); console.dir(decodedJwt);
+          console.log(`-- ${path}/route.POST():decodedJwt=`); console.dir(decodedJwt);
         }//5>
         return NextResponse.json({message: `ログイン成功#${cnt}`, token: token});//Mdf
       }//4>
       else{//<4
-        return NextResponse.json({message: `ログイン失敗#${cnt}：password mismatch`})
+        return NextResponse.json({message: `ログイン失敗A#${cnt}：password-mismatch`});
       }//4>
     }//3>
     else{//<3. ユーザーデータが存在しない場合の処理.
-      return NextResponse.json({message: `ログイン失敗#${cnt}：ユーザー登録をしてください`})
+      return NextResponse.json({message: `ログイン失敗B#${cnt}：ユーザー未登録`});
     }//3>
   }//2>
-  catch{//<2
-    return NextResponse.json({message: `ログイン失敗#${cnt}`}) 
+  catch(err){//<2
+    cosole.log(`-- ${path}/route.POST():err=`);//Added
+    console.dir(err);//Added
+    return NextResponse.json({message: `ログイン失敗C#${cnt}:some exceptions`});
   }//2> 
 }//1>
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

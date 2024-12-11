@@ -9,55 +9,58 @@
 // On (2024 Dec 1).
 //######################################################################
 // server component
-const trcLev = 2;
+const trcLev = 1;
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 import Link from 'next/link';//Added
 import Image from 'next/image';//Added
 import Header from '../../../components/header';//Added
 import Footer from '../../../components/footer';//Added
+//**********************************************************************
+const url1 = 'http://localhost:3000/api/item/readsingle';//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 async function getSingleItem(id){
-  const url = `http://localhost:3000/api/item/readsingle/${id}`;
+  const url = `${url1}/${id}`;//Mdf
   const resp = await fetch(url);//Added.
   const jsonData = await resp.json();
   return jsonData;
   //return resp;
 }
 //**********************************************************************
-async function ReadSingleItem(context){
-  if( trcLev >= 2 ){
-    console.log('-- item/readsingle/page.ReadSingleItem()#1:context=');
+async function ReadSingleItem(context){//<1
+  if( trcLev >= 2 ){//<2
+    console.log('-- app/item/readsingle/_/page.ReadSingleItem()#1:context=');
     console.dir(context);
-  }
+  }//2>
   const params = await context.params;
   const id = params.id;
-  if( trcLev >= 2 ){
-    console.log(`-- item/readsingle/page.ReadSingleItem()#2:id=${id}`);
-  }
+  if( trcLev >= 1 ){//<2
+    console.log(`-- app/item/readsingle/_/page.ReadSingleItem()#2:id=${id}`);
+  }//2>
   const jsonData = await getSingleItem(id);
   const jsonData1 = jsonData.message;
   const jsonData2 =jsonData.singleItem;
-  if( trcLev >= 2 ){
-    console.log('-- item/readsingle/page.ReadSingleItem()#3:jsonData=');
+  if( trcLev >= 2 ){//<2
+    console.log('-- app/item/readsingle/_/page.ReadSingleItem()#3:jsonData=');
     console.dir(jsonData);
-    console.log('-- item/readsingle/page.ReadSingleItem()#3:jsonData2=');
+    console.log('-- app/item/readsingle/_/page.ReadSingleItem()#3:jsonData2=');
     console.dir(jsonData2);
-  }
+  }//2>
   //======================================================================
-  if( jsonData2 !== undefined ){
+  if( jsonData2 !== undefined ){//<2. When the specified data is present.
     const jsonData2Str = 
       jsonData2 === undefined ? 'Undefined' : JSON.stringify(jsonData2);
     const id = jsonData2._id;
     const title = jsonData2.title;
     let image = jsonData2.image;
-    if( image.substr(0,1) !== '/' ){
+    if( image.substr(0,1) !== '/' ){//<3
       image = '/' + image;
-    }
+    }//3>
     const price = jsonData2.price;
     const description = jsonData2.description;
     const email = jsonData2.email;
     const link = '/';
     return (
+      //======================================================================
       <>
         <Header/>
         <h3 style={{color:'red'}}>個別アイテムのページ：</h3>
@@ -72,10 +75,12 @@ async function ReadSingleItem(context){
         <p>Link：<Link href={`${link}`}>Top-page</Link></p>
         <Footer/>
       </>
+      //======================================================================
     );
-  }
-  else{
+  }//2>
+  else{//<2. When the specified data is NOT present.
     return (
+      //======================================================================
       <>
         <Header/>
         <h3 style={{color:'red'}}>個別アイテムのページ：</h3>
@@ -83,9 +88,10 @@ async function ReadSingleItem(context){
         <p>Undefined</p>
         <Footer/>
       </>
+      //======================================================================
     );
-  }
+  }//2>
   //======================================================================
-}
+}//1>
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 export default ReadSingleItem

@@ -18,6 +18,7 @@ import Footer from '../../components/footer';//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 const url = 'http://localhost:3000/api/user/login';
 //`${process.env.NEXT_PUBLIC_URL}/api/user/login`
+const path = 'app/user/login';//Added
 //**********************************************************************
 function Login(){//<1
   const [email, setEmail] = useState('');
@@ -45,14 +46,14 @@ function Login(){//<1
       const response = await fetch(url, reqOb);
       const jsonData = await response.json();
       if( trcLev >= 2 ){//<3
-        console.log('-- uer/login.Login()#1:jsonData='); console.dir(jsonData);
-        console.log('-- uer/login.Login()#2:jsonData.token='); console.dir(jsonData.token);
+        console.log(`-- ${path}.Login()#1:jsonData=`); console.dir(jsonData);
+        console.log(`-- ${path}.Login()#2:jsonData.token=`); console.dir(jsonData.token);
       }//3>
-      localStorage.setItem("token", jsonData.token);
+      localStorage.setItem('token', jsonData.token);
       alert(jsonData.message);
     }//3>
     catch(err){//<3
-      console.log('-- uer/login.Login()#3:err='); console.dir(err);
+      console.log(`-- ${paht}.Login()#3:err=`); console.dir(err);
       alert("ログイン失敗")
     }//3>
   }//2>

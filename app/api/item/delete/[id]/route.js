@@ -8,21 +8,45 @@
 // By Horita.
 // On (2024 Nov 27).
 //######################################################################
-import { NextResponse } from "next/server"
-import connectDB        from "../../../../utils/database"
-import { ItemModel }    from "../../../../utils/schemaModels"
+const cnt = 3;//Added
+const trcLev = 2;//Added
+const path = 'app/api/item/delete/_/route';//Added.
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+import { NextResponse } from 'next/server'
+import connectDB        from '../../../../utils/database'
+import { ItemModel }    from '../../../../utils/schemaModels'
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 export async function DELETE(request, context){
   try{
+    const reqBody = await request.json();
+    if( trcLev >= 1 ){
+      console.log(`-- ${path}.DELETE()#1:reqBody=`); 
+      console.dir(reqBody);
+    }
     await connectDB();
     const params = await context.params;//Added
-    await ItemModel.deleteOne({_id: params.id});//Mdf
-    //await ItemModel.deleteOne({_id: context.params.id}) 
-    return NextResponse.json({message: "アイテム削除成功"})
+    const singleItem = await ItemModel.findById(params.id);//Added.
+    if( singleItem.email === reqBody.email ){
+      //v Deletion can be done, only by the creator.
+      await ItemModel.deleteOne({_id: params.id});
+      const rtnOb1 = {message: `アイテム削除成功#${cnt}`};
+      return NextResponse.json(rtnOb1);
+    }
+    else{
+      if( trcLev >= 1 ){
+        console.log(`-- ${path}.DELETE()#2:email-mismatch,`+
+                    `singleItem.email=${singleItem.email},`+ 
+                    `reqBody.email=${reqBody.email}`
+                   );
+      }
+      const rtnOb2 = {message: `アイテム削除失敗A#${cnt}:他人のアイテムです.`};
+      return NextResponse.json(rtnOb2);
+    }
   }
   catch(err){
-    console.log('-- api/item/delete/_/route.DELETE()#1:err='); console.dir(err);
-    return NextResponse.json({message: "アイテム削除失敗"})
+    console.log(`-- ${path}.DELETE()#3:err=`);
+    console.dir(err);
+    return NextResponse.json({message: `アイテム削除失敗B#${cnt}:some-errs`});
   }
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

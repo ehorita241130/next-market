@@ -8,24 +8,24 @@
 // By Horita.
 // On (2024 Nov 27).
 //######################################################################
-import { NextResponse } from "next/server";
-import connectDB from        "../../../../utils/database";
-import { ItemModel } from    "../../../../utils/schemaModels";
+import { NextResponse } from 'next/server';
+import connectDB from        '../../../../utils/database';
+import { ItemModel } from    '../../../../utils/schemaModels';
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-export async function GET(request, context){
-  try{
+export async function GET(request, context){//<1
+  try{//<2
     await connectDB();
     let params = await context.params;//Added
     const singleItem = await ItemModel.findById(params.id);//Mdf
     const rtnOb1 = 
-      {message: "アイテム読み取り(シングル)成功", singleItem: singleItem};
+      {message: 'アイテム読み取り(シングル)成功', singleItem: singleItem};
     return NextResponse.json(rtnOb1);
-  }
-  catch(err){
+  }//2>
+  catch(err){//<2
     console.log('-- api/item/readsingle/_/route.GET()#1:err=');//New
     console.dir(err);//New
-    const rtnOb2 = {message: "アイテム読み取り(シングル)失敗"};
+    const rtnOb2 = {message: 'アイテム読み取り(シングル)失敗'};
     return NextResponse.json(rtnOb2);
-  }
-}
+  }//2>
+}//1>
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

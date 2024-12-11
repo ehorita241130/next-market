@@ -8,7 +8,8 @@
 // By Horita.
 // On (2024 Nov 27).
 //######################################################################
-const cnt = 6;
+const cnt = 7;
+const trcLev = 2;//Added.
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 import { NextResponse } from "next/server";
 import connectDB from "../../../utils/database";//Added
@@ -16,8 +17,10 @@ import { ItemModel } from "../../../utils/schemaModels";
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 export async function POST(req){//<1
   const reqBody = await req.json();//New
-  console.log('-- api/item/create/route.POST():');
-  console.log(reqBody);
+  if( trcLev >= 2 ){//<3
+    console.log('-- api/item/create/route.POST()#1:reqBody=');
+    console.dir(reqBody);
+  }//3>
   try{//<2
     await connectDB();//Mdf.
     await ItemModel.create(reqBody);//New

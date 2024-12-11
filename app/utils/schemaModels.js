@@ -8,20 +8,21 @@
 // By Horita.
 // On (2024 Nov 27).
 //######################################################################
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 const Schema = mongoose.Schema;
-//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-const ItemSchema = new Schema({
+//**********************************************************************
+const itemSchemaSpec = {
   title: String,        
   image: String,
   price: String,    
   description: String,
   email: String,
-});
+};
+//======================================================================
+const ItemSchema = new Schema(itemSchemaSpec);
 //**********************************************************************
-//Added.
-const UserSchema = new Schema({
+const userSchemaSpec = {
   name: {
     type: String,
     required: true
@@ -35,8 +36,10 @@ const UserSchema = new Schema({
     type: String,
     required: true
   }
-})
+};
+//======================================================================
+const UserSchema = new Schema(userSchemaSpec);//Added.
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-export const ItemModel = mongoose.models.Item || mongoose.model("Item", ItemSchema)
-export const UserModel = mongoose.models.User || mongoose.model("User", UserSchema)
+export const ItemModel = mongoose.models.Item || mongoose.model('Item', ItemSchema)
+export const UserModel = mongoose.models.User || mongoose.model('User', UserSchema)
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

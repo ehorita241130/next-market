@@ -18,11 +18,15 @@ export async function GET(){//<1
   try{//<2
     await connectDB()  
     const allItems = await ItemModel.find() 
-    return NextResponse.json({message: `アイテム読み取り成功(オール)#${cnt}`, allItems: allItems});
+    let rtnOb1 = 
+      {message: `アイテム読み取り成功(オール)#${cnt}`, allItems: allItems};
+    return NextResponse.json(rtnOb1);
   }//2>
   catch(err){//<2. Mdf.
     console.log('readall/route.GET()#1:err='); console.dir(err);//Added.
-    return NextResponse.json({message: `アイテム読み取り(オール)失敗#${cnt}`});
+    let rtnOb2 =
+      {message: `アイテム読み取り(オール)失敗#${cnt}`};
+    return NextResponse.json(rtnOb2);
   }//2>
 }//1>
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

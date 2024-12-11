@@ -12,7 +12,7 @@ const cnt = 6;
 const trcLev = 2;
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 import { NextResponse } from 'next/server';
-//import connectDB from '../../../utils/database';//Added
+import connectDB from '../../../utils/database';//Added
 //import { ItemModel } from '../../../utils/schemaModels';
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 export async function POST(req){//<1
@@ -22,7 +22,7 @@ export async function POST(req){//<1
     console.dir(reqBody);
   }
   try{//<2
-    //await connectDB();//Mdf.
+    await connectDB();//Mdf.
     //await ItemModel.create(reqBody);//New
     //await ItemModel.create();//Added. Mdf.
     let rtnOb = {message: `Item creation#${cnt}`};//New

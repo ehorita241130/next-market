@@ -10,7 +10,7 @@
 //######################################################################
 'use client'
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-const trcLev = 1;//New
+const trcLev = 2;//New
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation' 
@@ -20,7 +20,7 @@ import useAuth from '../../../utils/useAuth'
 const url1 = 'http://localhost:3000/api/item/readsingle';
 const url2 = 'http://localhost:3000/api/item/delete'
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-const DeleteItem = (context) => {
+function DeleteItem(context){
   const [title, setTitle] = useState('')
   const [price, setPrice] = useState('')
   const [image, setImage] = useState('')
@@ -91,6 +91,7 @@ const DeleteItem = (context) => {
     }
     if( image !== '' ){
       return (
+        //======================================================================
         <div>
           <h1 className='page-title'>アイテム削除：</h1>
           <form onSubmit={handleSubmit}>
@@ -101,17 +102,26 @@ const DeleteItem = (context) => {
             <button>削除</button>
           </form>
         </div>
+        //======================================================================
       );   
     }
     else{
       return (
-        <h1>Processing the page....</h1>
+        //======================================================================
+        <div>
+          <h1>Processing the page....</h1>
+        </div>
+        //======================================================================
       );
     }
   }
   else{                 
     return (
-      <h1>権限がありません</h1>
+      //======================================================================
+      <div>
+        <h1>権限がありません</h1>
+      </div>
+      //======================================================================
     );
   }     
 }

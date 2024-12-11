@@ -11,6 +11,8 @@
 'use client'
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 const trcLev = 2;//New
+const url1 = 'http://localhost:3000/api/item/create';
+const path = 'app/item/create/page';//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 import { useState } from 'react'
 import { useRouter } from 'next/navigation' 
@@ -18,8 +20,6 @@ import useAuth from '../../utils/useAuth';
 import Header from '../../components/header';//Added
 import Footer from '../../components/footer';//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-const url1 = 'http://localhost:3000/api/item/create';
-//**********************************************************************
 function CreateItem(){//<1
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
@@ -33,16 +33,16 @@ function CreateItem(){//<1
   //======================================================================
   if( trcLev >= 2 ){//<2
     if( loginUserEmail === undefined ){//<3
-      console.log('-- item/create/page.CreateItem()#1:loginUserEmail is undefined');
+      console.log(`-- ${path}.CreateItem()#1:loginUserEmail is undefined`);
     }//3>
     else if( loginUserEmail === null ){//<3
-      console.log('-- item/create/page.CreateItem()#1:loginUserEmail is null');
+      console.log(`-- ${path}.CreateItem()#1:loginUserEmail is null`);
     }//3>
     else if( loginUserEmail === '' ){//<3
-      console.log('-- item/create/page.CreateItem()#1:loginUserEmail is empty');
+      console.log(`-- ${path}.CreateItem()#1:loginUserEmail is empty`);
     }//3>
     else{//<3
-      console.log(`-- item/create/page.CreateItem()#1:loginUserEmail=${loginUserEmail}`);
+      console.log(`-- ${path}.CreateItem()#1:loginUserEmail=${loginUserEmail}`);
     }//3>
   }//2>
   //======================================================================
@@ -51,7 +51,7 @@ function CreateItem(){//<1
     try{//<3
       const token1 = localStorage.getItem('token');
       if( trcLev >= 2 ){
-        console.log('-- item/create/page.CreateItem()#2:token1=');
+        console.log(`-- ${path}.CreateItem()#2:token1=`);
         console.dir(token1);
       }
       const headers1 =
@@ -82,13 +82,13 @@ function CreateItem(){//<1
       router.refresh();
     }//3>
     catch(err){//<3
-      console.log('-- item/create/page.CreateItem()#3:err=');
+      console.log(`-- ${path}.CreateItem()#3:err=`);
       console.dir(err);
       alert('アイテム作成失敗') 
     }//3>
   }//2>
   //======================================================================
-  if( loginUserEmail ){//<2
+  if( loginUserEmail ){//<2. When loginUserEmail is OK (NOT empty/false).
     return (
       <div>
         <Header/>
