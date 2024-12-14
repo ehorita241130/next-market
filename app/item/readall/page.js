@@ -14,17 +14,22 @@
 const trcLev = 1;
 //const trcLev = 2;
 const mode = 0;
+//======================================================================
+const url0 = process.env.NEXT_PUBLIC_URL;//New
+const url1 = 'api/item/readall';//New
+const url2 = `${url0}/${url1}`;//New
+//const url = 'http://localhost:3000/api/item/readall';
+//======================================================================
+const path = 'app/item/readall/page';//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-import Link from 'next/link';//Added
-import Image from 'next/image';//Added
+import Link   from 'next/link';//Added
+import Image  from 'next/image';//Added
 import Header from '../../components/header';//Added
 import Footer from '../../components/footer';//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-const url = 'http://localhost:3000/api/item/readall';
-const path = 'app/item/readall/page';//Added
-//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 async function getAllItems(){
-  const response = await fetch(url);
+  const response = await fetch(url2);//Mdf
+  //const response = await fetch(url);
   {cache: "no-store"};//Added
   const jsonData = await response.json();
   if( trcLev >= 2 ){
@@ -111,7 +116,10 @@ function Page(){//<1
   //======================================================================
   async function handleSubmit(evt){//<2
     evt.preventDefault() 
-    const response = await fetch(url);
+    const url0 = process.env.NEXT_PUBLIC_URL;//New
+    const url2 = `${url0}/${url1}`;//New
+    const response = await fetch(url2);//Mdf
+    //const response = await fetch(url);
     let items = await getAllItems();
     let message = items.message;
     let items1 = items.allItems;

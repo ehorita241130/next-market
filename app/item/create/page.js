@@ -11,7 +11,12 @@
 'use client'
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 const trcLev = 2;//New
-const url1 = 'http://localhost:3000/api/item/create';
+//======================================================================
+const url0 = process.env.NEXT_PUBLIC_URL;//New
+const url1 = 'api/item/create';//New
+const url2 = `${url0}/${url1}`;//New
+//const url1 = 'http://localhost:3000/api/item/create';
+//======================================================================
 const path = 'app/item/create/page';//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 import { useState } from 'react'
@@ -21,6 +26,9 @@ import Header from '../../components/header';//Added
 import Footer from '../../components/footer';//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function CreateItem(){//<1
+  if( trcLev >= 2 ){//<2
+    console.log(`-- ${path}.CreateItem()#1:url2=\n`, url2);
+  }//2>
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [image, setImage] = useState('');
@@ -75,7 +83,8 @@ function CreateItem(){//<1
           headers: headers1,
           body: JSON.stringify(body1)
         };
-      const response = await fetch(url1, ob1);
+      const response = await fetch(url2, ob1);//New
+      //const response = await fetch(url1, ob1);
       const jsonData = await response.json();
       alert(jsonData.message);
       router.push('/');

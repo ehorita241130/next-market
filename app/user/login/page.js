@@ -8,18 +8,20 @@
 // By Horita.
 // On (2024 Nov 30).
 //######################################################################
-'use client'
+'use client';//Client Component.
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 const trcLev = 2;//New
-//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-import { useState } from 'react'
-import Header from '../../components/header';//Added
-import Footer from '../../components/footer';//Added
-//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-const url = 'http://localhost:3000/api/user/login';
+const url0 = process.env.NEXT_PUBLIC_URL;//New
+const url1 = 'api/user/login';//New
+const url2 = `${url0}/${url1}`;//New
+//const url = 'http://localhost:3000/api/user/login';
 //`${process.env.NEXT_PUBLIC_URL}/api/user/login`
 const path = 'app/user/login';//Added
-//**********************************************************************
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+import { useState } from 'react'
+import Header       from '../../components/header';//Added
+import Footer       from '../../components/footer';//Added
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function Login(){//<1
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -43,12 +45,16 @@ function Login(){//<1
         body: JSON.stringify(reqBody)
       };
     try{//<3
-      const response = await fetch(url, reqOb);
+      const response = await fetch(url2, reqOb);
+      //const response = await fetch(url, reqOb);
       const jsonData = await response.json();
       if( trcLev >= 2 ){//<3
-        console.log(`-- ${path}.Login()#1:jsonData=`); console.dir(jsonData);
-        console.log(`-- ${path}.Login()#2:jsonData.token=`); console.dir(jsonData.token);
+        console.log(`-- ${path}.Login()#1:jsonData=`); 
+        console.dir(jsonData);
+        console.log(`-- ${path}.Login()#2:jsonData.token=`); 
+        console.dir(jsonData.token);
       }//3>
+      //v Storing token in the local storage.
       localStorage.setItem('token', jsonData.token);
       alert(jsonData.message);
     }//3>

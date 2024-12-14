@@ -8,50 +8,60 @@
 // By Horita.
 // On (2024 Dec 2).
 //######################################################################
-'use client'
+'use client';//User Component
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 const trcLev = 2;//New
+const path = 'app/item/delete/_/page';//Added
+//======================================================================
+const url0 = process.env.NEXT_PUBLIC_URL;//New
+const url1A = 'api/item/readsingle';//New
+//const url1 = 'http://localhost:3000/api/item/readsingle';
+const url1B = 'api/item/delete';//New
+//const url2 = 'http://localhost:3000/api/item/delete'
+const url2A = `${url0}/${url1A}`;
+const url2B = `${url0}/${url1B}`;
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation' 
-import Image from 'next/image'   
-import useAuth from '../../../utils/useAuth'
-//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-const url1 = 'http://localhost:3000/api/item/readsingle';
-const url2 = 'http://localhost:3000/api/item/delete'
+import { useRouter }           from 'next/navigation' 
+import Image                   from 'next/image'   
+import useAuth                 from '../../../utils/useAuth'
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function DeleteItem(context){
-  const [title, setTitle] = useState('')
-  const [price, setPrice] = useState('')
-  const [image, setImage] = useState('')
-  const [description, setDescription] = useState('')
-  const [email, setEmail] = useState('')
-  const router = useRouter()
-  const loginUserEmail = useAuth() 
+  if( trcLev >= 2 ){//<2
+    console.log(`-- ${path}.DeleteItem()#1A:url2A=\n`, url2A);
+    console.log(`-- ${path}.DeleteItem()#1B:url2B=\n`, url2B);
+  }//2>
+  const [title, setTitle] = useState('');
+  const [price, setPrice] = useState('');
+  const [image, setImage] = useState('');
+  const [description, setDescription] = useState('');
+  const [email, setEmail] = useState('');
+  const router = useRouter();
+  const loginUserEmail = useAuth();
   useEffect(() => {
     //----------------------------------------------------------------------
     async function getSingleItem(){
       const params = await context.params;//New
       const id = params.id;//New
-      const response = await fetch(`${url1}/${id}`, {cache: 'no-store'});
+      const response = await fetch(`${url2A}/${id}`, {cache: 'no-store'});
       const jsonData = await response.json();
       const singleItem = jsonData.singleItem;
       if( trcLev >= 2 ){
-        console.log('-- app/item/delete/_/page.DeleteItem()#1:singleItem=');
+        console.log(`-- ${path}.DeleteItem()#2:singleItem=`);
         console.dir(singleItem);
       }
-      setTitle(singleItem.title)
-      setPrice(singleItem.price)
-      setImage(singleItem.image)
-      setDescription(singleItem.description)
-      setEmail(singleItem.email) 
-    }  
+      setTitle(singleItem.title);
+      setPrice(singleItem.price);
+      setImage(singleItem.image);
+      setDescription(singleItem.description);
+      setEmail(singleItem.email);
+    }
     //----------------------------------------------------------------------
     getSingleItem();//Mdf
   }, [context] );
   //======================================================================
-  async function handleSubmit(e){
-    e.preventDefault() 
+  async function handleSubmit(evt){
+    evt.preventDefault() 
     try{
       const params = await context.params;//New
       const id = params.id;//New
@@ -62,31 +72,29 @@ function DeleteItem(context){
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token1}`
         };
-      const body1 =
-        {
-          email: loginUserEmail 
-        };
+      const body1 = { email: loginUserEmail };
       const ob1 = 
         {
           method: 'DELETE',
           headers: headers1,
           body: JSON.stringify(body1)
         };
-      const response = await fetch(`${url2}/${id}`, ob1);
+      const response = await fetch(`${url2B}/${id}`, ob1);
       const jsonData = await response.json()
       alert(jsonData.message)  
       router.push('/') 
       router.refresh()
     }
     catch(err){
-      console.log('err='); console.dir(err);//Added
+      console.log(`-- ${path}.DeleteItem()#3:err=`); 
+      console.dir(err);//Added
       alert('アイテム削除失敗') 
     }
   }
   //======================================================================
   if( loginUserEmail === email ){
     if( trcLev >= 1 ){
-      console.log('-- app/item/delete/_/page.DeleteItem()#1:image=');
+      console.log(`-- ${path}.DeleteItem()#4:image=`);
       console.dir(image);
     }
     if( image !== '' ){
@@ -115,7 +123,7 @@ function DeleteItem(context){
       );
     }
   }
-  else{                 
+  else{
     return (
       //======================================================================
       <div>

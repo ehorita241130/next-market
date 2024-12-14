@@ -8,55 +8,63 @@
 // By Horita.
 // On (2024 Nov 30).
 //######################################################################
-"use client" 
+'use client';//User Component
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-const trcLev = 1;
+const trcLev = 2;
+const path = 'app/user/register/page';
+//======================================================================
+const url0 = process.env.NEXT_PUBLIC_URL;
+const url1 = 'api/user/register';//New
+const url2 = `${url0}/${url1}`;//New
+//const url = 'http://localhost:3000/api/user/register';//CmOut
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-import { useState } from "react";
-import Header from '../../components/header';//Added
-import Footer from '../../components/footer';//Added
+import { useState } from 'react';//Only for User Component.
+import Header       from '../../components/header';//Added
+import Footer       from '../../components/footer';//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function Register(){
+function Register(){//<1
   //======================================================================
-  const [name, setName] = useState("") 
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [name, setName] = useState('') 
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   //======================================================================
-  if( trcLev >= 2 ){
-    console.log(`-- process.env.NEXT_PUBLIC_URL=${process.env.NEXT_PUBLIC_URL}`);
-  }
+  if( trcLev >= 2 ){//<2
+    console.log(`-- ${path}.Register()#1:url0=${url0}`);
+  }//2>
   //======================================================================
-  const handleSubmit = async(e) => {
-    e.preventDefault();
-    try{
-      const reqOb1 = 
+  async function handleSubmit(evt){//<2
+    evt.preventDefault();
+    try{//<3
+      const headers1 = 
+        { 
+          'Accept': 'application/json', 
+          'Content-Type': 'application/json'
+        };
+      const reqBod1 = 
         { 
           name: name,
           email: email,
           password: password
         };
-      const headers1 = 
-        { 
-          "Accept": "application/json", 
-          "Content-Type": "application/json"
-        }
-      const reqOb2 = 
+      const reqOb1 = 
         {
-          method: "POST",
+          method: 'POST',
           headers: headers1,
-          body: JSON.stringify(reqOb1)
+          body: JSON.stringify(reqBod1)
         };
-      const response = await fetch('http://localhost:3000/api/user/register', reqOb2); 
+      const response = await fetch(`${url2}`, reqOb1);//Mdf
+      //const response = await fetch(`${url}`, reqOb1); 
       const jsonData = await response.json();
       alert(jsonData.message);
-    }
-    catch(err){
-      console.log('-- Register.handleSubmit()#1:err='); console.dir(err);
-      alert("ユーザー登録失敗");
-    }
-  }
+    }//3>
+    catch(err){//<3
+      console.log(`-- ${path}.Register.handleSubmit()#1:err=`); 
+      console.dir(err);
+      alert(`ユーザー登録失敗:url0=${url0}`);
+    }//3>
+  }//2>
   //======================================================================
-  return (
+  return (//<2
     <div>
       <Header/>
       <h1 className='page-title'>ユーザー登録</h1>
@@ -71,7 +79,7 @@ function Register(){
       </form>
       <Footer/>
     </div>
-  );
-}
+  );//2>
+}//1>
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 export default Register;

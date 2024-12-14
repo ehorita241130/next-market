@@ -11,7 +11,7 @@
 const cnt = 8;//Added
 const trcLev = 2;//Added
 const plainSecret = "next-market-app-book";//Added
-const path = 'app/api/user/login';//Added
+const path = 'app/api/user/login/route';//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 import { NextResponse } from "next/server"
 import { SignJWT }      from "jose"
@@ -22,13 +22,13 @@ import { UserModel }    from "../../../utils/schemaModels"
 export async function POST(req){//<1
   const reqBody = await req.json();
   const email = reqBody.email;//New
-  console.log(`-- ${path}/route.POST():reqBody.email=${email}`);
+  console.log(`-- ${path}.POST()#1:reqBody.email=${email}`);
   try{//<2
     await connectDB();
     const savedUserData = await UserModel.findOne({email: email});
-    console.log(`-- ${path}/route.POST():findOne() done.`);
+    console.log(`-- ${path}.POST()#2:findOne() done.`);
     if( trcLev >= 1 ){//<3
-      console.log(`-- ${path}/route.POST():savedUserData=`);
+      console.log(`-- ${path}.POST()#3:savedUserData=`);
       console.dir(savedUserData);
     }//3>
     if( savedUserData ){//<3. ユーザーデータが存在する場合の処理.
@@ -36,21 +36,23 @@ export async function POST(req){//<1
         const secretKey = new TextEncoder().encode(plainSecret);//Added
         const payload = { email: email };//Added.
         if( trcLev >= 2 ){//<5
-          console.log(`-- ${path}/route.POST():secretkey=`);//Tracing
+          console.log(`-- ${path}.POST()#4:secretkey=`);//Tracing
           console.dir(secretKey);//Tracing
-          console.log(`-- ${path}/route.POST():payload=`, payload);//Tracing
+          console.log(`-- ${path}.POST()#5:payload=`, payload);//Tracing
         }//5>
         const token = 
           await new SignJWT(payload)
           .setProtectedHeader({alg: "HS256"})
-          .setExpirationTime("1d")//Meaning 1 day.
+          .setExpirationTime("10d")//Meaning 10 days. Mdf.
           .sign(secretKey);
         if( trcLev >= 2 ){//<5
-          console.log(`-- ${path}/route.POST():token=`); console.dir(token);
+          console.log(`-- ${path}.POST()#5:token=`); 
+          console.dir(token);
         }//5>
         const decodedJwt = await jwtVerify(token, secretKey);
         if( trcLev >= 2 ){//<5
-          console.log(`-- ${path}/route.POST():decodedJwt=`); console.dir(decodedJwt);
+          console.log(`-- ${path}.POST()#6:decodedJwt=`); 
+          console.dir(decodedJwt);
         }//5>
         return NextResponse.json({message: `ログイン成功#${cnt}`, token: token});//Mdf
       }//4>
@@ -63,7 +65,7 @@ export async function POST(req){//<1
     }//3>
   }//2>
   catch(err){//<2
-    cosole.log(`-- ${path}/route.POST():err=`);//Added
+    cosole.log(`-- ${path}.POST()#7:err=`);//Added
     console.dir(err);//Added
     return NextResponse.json({message: `ログイン失敗C#${cnt}:some exceptions`});
   }//2> 

@@ -8,23 +8,25 @@
 // By Horita.
 // On (2024 Nov 30).
 //######################################################################
-import { NextResponse } from "next/server"
-import connectDB        from "../../../../utils/database"
-//import { ItemModel }    from "../../../../utils/schemaModels"
-import { UserModel }    from "../../../../utils/schemaModels"
+const path = 'app/api/user/delete/_/route';//Added
+//**********************************************************************
+import { NextResponse } from 'next/server'
+import connectDB        from '../../../../utils/database'
+import { UserModel }    from '../../../../utils/schemaModels'
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 export async function DELETE(request, context){
   try{
     await connectDB();
     const params = await context.params;//Added
     await UserModel.deleteOne({_id: params.id});//Mdf
-    //await ItemModel.deleteOne({_id: params.id});//Mdf
-    //await ItemModel.deleteOne({_id: context.params.id}) 
-    return NextResponse.json({message: "ユーザー削除成功"})
+    let rtnOb1 = {message: 'ユーザー削除成功'};
+    return NextResponse.json(rtnOb1);
   }
   catch(err){
-    console.log('-- api/user/delete/_/route.DELETE()#1:err='); console.dir(err);
-    return NextResponse.json({message: "ユーザー削除失敗"})
+    console.log(`-- ${path}.DELETE()#1:err=`); 
+    console.dir(err);
+    let rtnOb2 = {message: 'ユーザー削除失敗'};
+    return NextResponse.json(rtnOb2)
   }
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
