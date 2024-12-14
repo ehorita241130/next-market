@@ -17,7 +17,9 @@ const mode = 0;
 //======================================================================
 const url0 = process.env.NEXT_PUBLIC_URL;//New
 const url1 = 'api/item/readall';//New
-const url2 = `${url0}/${url1}`;//New
+const url2 = '/api/item/readall';//New for test.
+//const url2 = './api/item/readall';//New for test.
+//const url2 = `${url0}/${url1}`;//New
 //const url = 'http://localhost:3000/api/item/readall';
 //======================================================================
 const path = 'app/item/readall/page';//Added
@@ -116,8 +118,8 @@ function Page(){//<1
   //======================================================================
   async function handleSubmit(evt){//<2
     evt.preventDefault() 
-    const url0 = process.env.NEXT_PUBLIC_URL;//New
-    const url2 = `${url0}/${url1}`;//New
+    //const url0 = process.env.NEXT_PUBLIC_URL;//New
+    //const url2 = `${url0}/${url1}`;//New
     const response = await fetch(url2);//Mdf
     //const response = await fetch(url);
     let items = await getAllItems();
