@@ -10,8 +10,13 @@
 //######################################################################
 'use client'
 //**********************************************************************
-const url1 = 'http://localhost:3000/api/item/readsingle';//New
-const url2 = 'http://localhost:3000/api/item/update';//New
+const url0 = process.env.NEXT_PUBLIC_URL;//New
+const url1A = 'api/item/readsingle';//New
+//const url1 = 'http://localhost:3000/api/item/readsingle';//New
+const url1B = 'api/item/update';//New
+//const url2 = 'http://localhost:3000/api/item/update';//New
+const url2A = `${url0}/${url1A}`;//New
+const url2B = `${url0}/${url1B}`;//New
 //**********************************************************************
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation' 
@@ -31,7 +36,8 @@ function UpdateItem(context){
       async function getSingleItem(){
         const params = await context.params;//New
         const id = params.id;//New
-        const response = await fetch(`${url1}/${id}`, {cache: 'no-store'});
+        const response = await fetch(`${url2A}/${id}`, {cache: 'no-store'});
+        //const response = await fetch(`${url1}/${id}`, {cache: 'no-store'});
         const jsonData = await response.json();
         const singleItem = jsonData.singleItem;
         setTitle(singleItem.title);
@@ -68,7 +74,8 @@ function UpdateItem(context){
           headers: headers1,
           body: JSON.stringify(body1)
         };//New
-      const response = await fetch(`${url2}/${id}`, ob1);
+      const response = await fetch(`${url2B}/${id}`, ob1);
+      //const response = await fetch(`${url2}/${id}`, ob1);
       const jsonData = await response.json();
       alert(jsonData.message)  
       router.push('/') 
