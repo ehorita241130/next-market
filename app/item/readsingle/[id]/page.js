@@ -13,6 +13,8 @@ const trcLev = 1;
 //======================================================================
 const url0 = process.env.NEXT_PUBLIC_URL;//New
 const url1 = 'api/item/readsingle';//New
+//const url2 = '/api/item/readsingle';//New
+//const url2 = 'http:/api/item/readsingle';//New
 const url2 = `${url0}/${url1}`;
 //const url1 = 'http://localhost:3000/api/item/readsingle';//Added
 //const url = `${url2}/${id}`;//Mdf
@@ -24,6 +26,7 @@ import Header from '../../../components/header';//Added
 import Footer from '../../../components/footer';//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 async function getSingleItem(id){
+  const url = `${url2}/${id}`;//Mdf
   const resp = await fetch(url);//Added.
   const jsonData = await resp.json();
   return jsonData;
@@ -31,13 +34,13 @@ async function getSingleItem(id){
 }
 //**********************************************************************
 async function ReadSingleItem(context){//<1
-  const url = `${url2}/${id}`;//Mdf
   if( trcLev >= 2 ){//<2
     console.log('-- app/item/readsingle/_/page.ReadSingleItem()#1:context=');
     console.dir(context);
   }//2>
   const params = await context.params;
   const id = params.id;
+  const url = `${url2}/${id}`;//Mdf
   if( trcLev >= 1 ){//<2
     console.log(`-- app/item/readsingle/_/page.ReadSingleItem()#2:id=${id}`);
   }//2>

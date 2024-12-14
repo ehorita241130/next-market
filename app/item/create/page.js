@@ -11,19 +11,20 @@
 'use client'
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 const trcLev = 2;//New
+const path = 'app/item/create/page';//Added
 //======================================================================
 const url0 = process.env.NEXT_PUBLIC_URL;//New
 const url1 = 'api/item/create';//New
-const url2 = `${url0}/${url1}`;//New
+const url2 = `/${url1}`;//New2
+//const url2 = `${url0}/${url1}`;//New
 //const url1 = 'http://localhost:3000/api/item/create';
 //======================================================================
-const path = 'app/item/create/page';//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-import { useState } from 'react'
+import { useState }  from 'react'
 import { useRouter } from 'next/navigation' 
-import useAuth from '../../utils/useAuth';
-import Header from '../../components/header';//Added
-import Footer from '../../components/footer';//Added
+import useAuth       from '../../utils/useAuth';
+import Header        from '../../components/header';//Added
+import Footer        from '../../components/footer';//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function CreateItem(){//<1
   if( trcLev >= 2 ){//<2
@@ -36,8 +37,8 @@ function CreateItem(){//<1
   const [email, setEmail] = useState('');//Added
   //
   const router = useRouter();
-  //const loginUserEmail = false;//Tmp
   const loginUserEmail = useAuth();
+  //const loginUserEmail = false;//Tmp
   //======================================================================
   if( trcLev >= 2 ){//<2
     if( loginUserEmail === undefined ){//<3
@@ -58,10 +59,10 @@ function CreateItem(){//<1
     evt.preventDefault() 
     try{//<3
       const token1 = localStorage.getItem('token');
-      if( trcLev >= 2 ){
+      if( trcLev >= 2 ){//<4
         console.log(`-- ${path}.CreateItem()#2:token1=`);
         console.dir(token1);
-      }
+      }//4>
       const headers1 =
         { 
           'Accept': 'application/json', 

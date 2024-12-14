@@ -17,7 +17,8 @@ const mode = 0;
 //======================================================================
 const url0 = process.env.NEXT_PUBLIC_URL;//New
 const url1 = 'api/item/readall';//New
-const url2 = '/api/item/readall';//New for test.
+const url2 = `/${url1}`;//New for test.
+//const url2 = '/api/item/readall';//New for test.
 //const url2 = './api/item/readall';//New for test.
 //const url2 = `${url0}/${url1}`;//New
 //const url = 'http://localhost:3000/api/item/readall';
@@ -42,84 +43,11 @@ async function getAllItems(){
 }//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //**********************************************************************
-//v This works for [npm run dev], but does NOT for [npm run start]
-async function ReadAllItems(){//<1
-  //console.log(`-- ${path}.ReadAllItems()#1:called.`);
-  let items = await getAllItems();
-  let message = items.message;
-  let items1 = items.allItems;
-  if( trcLev >= 2 ){
-    console.log(`-- ${path}.ReadAllItems()#1:items1=`); 
-    console.dir(items1);
-  }
-  //let items1 = undefined;//Dummy
-  if( items1 === undefined ){
-    return (
-      //======================================================================
-      <>
-        <h3>Some errors in {`${path}.ReadAllItems()`}</h3>
-      </>
-      //======================================================================
-    );
-  }
-  let lgt1 = items1.length;
-  console.log(`-- ${path}.ReadAllItems()#1:lgt1=${lgt1}`);
-  //======================================================================
-  return (//<2
-    //======================================================================
-    <>
-      <Header/>
-      <h3 style={{color:'red'}}>こんにちは． アイテム一覧：</h3>
-      <p style={{color:'blue'}}>Message：{message}</p>
-      <p>{`Count of items：${lgt1}`}</p>
-      <hr/>
-      {
-        (() => {//<4<5
-          let rtn = [];
-          for(let k=0; k < lgt1; ++k){//______________________________BGN <LOOP.1>
-            let item1 = items1[k];
-            let id1 = item1._id;
-            let link1 = `/item/readsingle/${id1}`;
-            //console.log('link1='); console.dir(link1);
-            let title1 = item1.title;
-            let description = item1.description;
-            let description1 = description.substr(0,60)+' ....';//Mdf
-            let email1 = item1.email;
-            let price1 = item1.price;
-            let image1 = item1.image;
-            if( image1.substr(0,1) !== '/' ){
-              image1 = '/' + image1;
-            }
-            rtn.push(
-              <div key={k+1}>
-                <p>#{k+1}，Id：{id1}</p>                
-                <p>Title：{title1}，Price：{price1}円，Email：{email1}</p>
-                <p>Link：<Link href={`${link1}`}>{id1}</Link></p>
-                <p>Description：{description1}</p>
-                <p>Image：{`"${image1}"`}</p>
-                <p><Image src={image1} width={150} height={100} alt='item-image' priority/></p>
-                <hr/>
-              </div>
-            );
-          }//_________________________________________________________END <LOOP.1>
-          return rtn;
-        })()//5>4>
-      }
-      <h3 style={{color:'red'}}>さようなら</h3>
-      <Footer/>
-    </>
-    //======================================================================
-  );//2>
-  //======================================================================
-}//1>
-//**********************************************************************
 //v This WORKS for for [npm run start]
 function Page(){//<1
   //======================================================================
   async function handleSubmit(evt){//<2
     evt.preventDefault() 
-    //const url0 = process.env.NEXT_PUBLIC_URL;//New
-    //const url2 = `${url0}/${url1}`;//New
     const response = await fetch(url2);//Mdf
     //const response = await fetch(url);
     let items = await getAllItems();
@@ -135,8 +63,8 @@ function Page(){//<1
     for(let k=0; k < lgt1; ++k){//______________________________BGN <LOOP.1>
       let item1 = items1[k];
       let id1 = item1._id;
-      let link1 = `/item/readsingle/${id1}`;
-      //console.log('link1='); console.dir(link1);
+      let link1 = `/item/readsingle2/${id1}`;//New
+      //let link1 = `/item/readsingle/${id1}`;
       let title1 = item1.title;
       let description = item1.description;
       let description1 = description.substr(0,60)+' ....';//Mdf
@@ -173,4 +101,3 @@ function Page(){//<1
 }//1>
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 export default Page;//For [npm run start]
-//export default ReadAllItems;//For [npm run dev]
