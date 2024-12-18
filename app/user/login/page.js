@@ -13,7 +13,8 @@
 const trcLev = 2;//New
 const url0 = process.env.NEXT_PUBLIC_URL;//New
 const url1 = 'api/user/login';//New
-const url2 = `${url0}/${url1}`;//New
+const url2 = `/${url1}`;//New
+//const url2 = `${url0}/${url1}`;//New
 //const url = 'http://localhost:3000/api/user/login';
 //`${process.env.NEXT_PUBLIC_URL}/api/user/login`
 const path = 'app/user/login';//Added
