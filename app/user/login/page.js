@@ -59,7 +59,7 @@ function Login(){//<1
       alert(jsonData.message);
     }//3>
     catch(err){//<3
-      console.log(`-- ${paht}.Login()#3:err=`); console.dir(err);
+      console.log(`-- ${path}.Login()#3:err=`); console.dir(err);
       alert("ログイン失敗")
     }//3>
   }//2>
