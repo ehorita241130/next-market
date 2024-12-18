@@ -8,7 +8,7 @@
 // By Horita.
 // On (2024 Dec 1).
 //######################################################################
-'use client'
+'use client';//Client Component.
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 const trcLev = 2;//New
 const path = 'app/item/create/page';//Added
@@ -23,6 +23,7 @@ const url2 = `/${url1}`;//New2
 import { useState }  from 'react'
 import { useRouter } from 'next/navigation' 
 import useAuth       from '../../utils/useAuth';
+import ImgInput      from '../../components/imgInput';//Added2
 import Header        from '../../components/header';//Added
 import Footer        from '../../components/footer';//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -104,12 +105,13 @@ function CreateItem(){//<1
         <Header/>
         <h1 className='page-title'>アイテム作成1</h1>
         <p>loginUserEmail：{loginUserEmail}</p>
+        <ImgInput setImage={setImage}/>{/*Added*/}
         <form onSubmit={handleSubmit}>
           <input value={title} onChange={(e) => setTitle(e.target.value)} 
             type='text' name='title' placeholder='アイテム名' size='70' required/><br/>
           <input value={price} onChange={(e) => setPrice(e.target.value)} 
             type='text' name='price' placeholder='価格' size='70' required/><br/>
-          <input value={image} onChange={(e) => setImage(e.target.value)} 
+          <input value={image} onChange={(evt) => setImage(evt.target.value)} 
             type='text' name='image' placeholder='画像' size='70' required/><br/>
           <textarea value={description} onChange={(e) => setDescription(e.target.value)} 
             name='description' rows={15} placeholder='商品説明' cols='70' required>
@@ -125,6 +127,7 @@ function CreateItem(){//<1
       <div>
         <Header/>
         <h1 className='page-title'>アイテム作成2</h1>
+        <ImgInput setImage={setImage}/>{/*Added*/}
         <form onSubmit={handleSubmit}>
           <input value={title} onChange={(e) => setTitle(e.target.value)} 
             type='text' name='title' placeholder='アイテム名' size='70' required/><br/>
@@ -132,7 +135,7 @@ function CreateItem(){//<1
             type='text' name='price' placeholder='価格' size='70' required/><br/>
           <input value={email} onChange={(e) => setEmail(e.target.value)} 
             type='text' name='email' placeholder='email' size='70' required/><br/>
-          <input value={image} onChange={(e) => setImage(e.target.value)} 
+          <input value={image} onChange={(evt) => setImage(evt.target.value)}
             type='text' name='image' placeholder='画像' size='70' required/><br/>
           <textarea value={description} onChange={(e) => setDescription(e.target.value)} 
             name='description' rows={15} placeholder='商品説明' cols='70' required>

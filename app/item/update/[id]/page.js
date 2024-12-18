@@ -8,7 +8,7 @@
 // By Horita.
 // On (2024 Dec 2).
 //######################################################################
-'use client'
+'use client';//Client Component.
 //**********************************************************************
 const url0 = process.env.NEXT_PUBLIC_URL;//New
 const url1A = 'api/item/readsingle';//New
@@ -31,7 +31,8 @@ function UpdateItem(context){
   //======================================================================
   const router = useRouter();
   const loginUserEmail = useAuth();
-  useEffect( 
+  //======================================================================
+  useEffect(
     () => {
       async function getSingleItem(){
         const params = await context.params;//New
@@ -47,7 +48,9 @@ function UpdateItem(context){
         setEmail(singleItem.email);
       }
       getSingleItem();//New
-    }, [context] );
+    }, 
+    [context] 
+  );
   //======================================================================
   async function handleSubmit(e){
     e.preventDefault() 

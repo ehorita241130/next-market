@@ -9,7 +9,7 @@
 // On (2024 Dec 1).
 //######################################################################
 'use client';//Client Component.
-// server component
+// Server Component
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 const trcLev = 2;
 const path = 'app/item/readsingle2/_/page';

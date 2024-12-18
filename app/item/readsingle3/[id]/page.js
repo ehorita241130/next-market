@@ -3,58 +3,56 @@
 // File: "page.js".
 // On nepi40 : (*home-common="/cygdrive/g/home2/"):
 // (concat *home-common 
-//   "pnotes/Miyoshi_Aki_A3570/P5613/next-market/app/item/readsingle/[id]/"
+//   "pnotes/Miyoshi_Aki_A3570/P5613/next-market/app/item/readsingle3/[id]/"
 //   "page.js")
 // By Horita.
 // On (2024 Dec 1).
 //######################################################################
+//'use client';//Client Component.
 // Server Component
-const trcLev = 1;
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+const trcLev = 2;
+const path = 'app/item/readsingle3/_/page';
 //======================================================================
 const url0 = process.env.NEXT_PUBLIC_URL;//New
-const url1 = 'api/item/readsingle';//New
-//const url2 = `${url1}`;//New2,NG in run dev.
-//const url2 = 'http:/api/item/readsingle';//New
+const url1 = 'api/item/readsingle2';//New. NOT changed from readsingle2.
+//const url2 = `/${url1}`;
 const url2 = `${url0}/${url1}`;
-//const url1 = 'http://localhost:3000/api/item/readsingle';//Added
-//const url = `${url2}/${id}`;//Mdf
-//const url = `${url1}/${id}`;//Mdf
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-import Link   from  'next/link';//Added
+//import { useState, useEffect } from 'react';//Added
+import Link   from 'next/link';//Added
 import Image  from 'next/image';//Added
 import Header from '../../../components/header';//Added
 import Footer from '../../../components/footer';//Added
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-async function getSingleItem(id){
-  const url = `${url2}/${id}`;//Mdf
-  const resp = await fetch(url);//Added.
+async function getSingleItem3(id){//<2
+  const headers1 =
+    { 
+      'Accept': 'application/json', 
+      'Content-Type': 'application/json',
+    };
+  const body1 = { id: id };
+  const ob1 =
+    {
+      method: 'POST',
+      headers: headers1,
+      body: JSON.stringify(body1)
+    };
+  const resp = await fetch(url2, ob1);//New
   const jsonData = await resp.json();
   return jsonData;
-  //return resp;
 }
 //**********************************************************************
-async function ReadSingleItem(context){//<1
-  if( trcLev >= 2 ){//<2
-    console.log('-- app/item/readsingle/_/page.ReadSingleItem()#1:context=');
-    console.dir(context);
-  }//2>
+async function Page(context){//<1
+  //======================================================================
   const params = await context.params;
   const id = params.id;
   const url = `${url2}/${id}`;//Mdf
-  if( trcLev >= 1 ){//<2
-    console.log(`-- app/item/readsingle/_/page.ReadSingleItem()#2:id=${id}`);
-  }//2>
-  const jsonData = await getSingleItem(id);
+  const jsonData = await getSingleItem3(id); 
   const jsonData1 = jsonData.message;
   const jsonData2 =jsonData.singleItem;
-  if( trcLev >= 2 ){//<2
-    console.log('-- app/item/readsingle/_/page.ReadSingleItem()#3:jsonData=');
-    console.dir(jsonData);
-    console.log('-- app/item/readsingle/_/page.ReadSingleItem()#3:jsonData2=');
-    console.dir(jsonData2);
-  }//2>
-  //======================================================================
-  if( jsonData2 !== undefined ){//<2. When the specified data is present.
+
+  if( jsonData2 !== undefined ){
     const id = jsonData2._id;
     const title = jsonData2.title;
     let image = jsonData2.image;
@@ -82,8 +80,9 @@ async function ReadSingleItem(context){//<1
       </>
       //======================================================================
     );
-  }//2>
-  else{//<2. When the specified data is NOT present.
+
+  }
+  else{
     return (
       //======================================================================
       <>
@@ -95,8 +94,7 @@ async function ReadSingleItem(context){//<1
       </>
       //======================================================================
     );
-  }//2>
-  //======================================================================
+  }
 }//1>
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-export default ReadSingleItem
+export default Page

@@ -26,7 +26,7 @@ import { useRouter }           from 'next/navigation'
 import Image                   from 'next/image'   
 import useAuth                 from '../../../utils/useAuth'
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function DeleteItem(context){
+function DeleteItem(context){//<1
   if( trcLev >= 2 ){//<2
     console.log(`-- ${path}.DeleteItem()#1A:url2A=\n`, url2A);
     console.log(`-- ${path}.DeleteItem()#1B:url2B=\n`, url2B);
@@ -38,31 +38,35 @@ function DeleteItem(context){
   const [email, setEmail] = useState('');
   const router = useRouter();
   const loginUserEmail = useAuth();
-  useEffect(() => {
-    //----------------------------------------------------------------------
-    async function getSingleItem(){
-      const params = await context.params;//New
-      const id = params.id;//New
-      const response = await fetch(`${url2A}/${id}`, {cache: 'no-store'});
-      const jsonData = await response.json();
-      const singleItem = jsonData.singleItem;
-      if( trcLev >= 2 ){
-        console.log(`-- ${path}.DeleteItem()#2:singleItem=`);
-        console.dir(singleItem);
-      }
-      setTitle(singleItem.title);
-      setPrice(singleItem.price);
-      setImage(singleItem.image);
-      setDescription(singleItem.description);
-      setEmail(singleItem.email);
-    }
-    //----------------------------------------------------------------------
-    getSingleItem();//Mdf
-  }, [context] );
   //======================================================================
-  async function handleSubmit(evt){
+  useEffect(() =>//<2
+    {//<3
+      //----------------------------------------------------------------------
+      async function getSingleItem(){//<4
+        const params = await context.params;//New
+        const id = params.id;//New
+        const response = await fetch(`${url2A}/${id}`, {cache: 'no-store'});
+        const jsonData = await response.json();
+        const singleItem = jsonData.singleItem;
+        if( trcLev >= 2 ){//<5
+          console.log(`-- ${path}.DeleteItem()#2:singleItem=`);
+          console.dir(singleItem);
+        }//5>
+        setTitle(singleItem.title);
+        setPrice(singleItem.price);
+        setImage(singleItem.image);
+        setDescription(singleItem.description);
+        setEmail(singleItem.email);
+      }//4>
+      //----------------------------------------------------------------------
+      getSingleItem();//Mdf
+    },//3>
+    [context] 
+  );//2>
+  //======================================================================
+  async function handleSubmit(evt){//<2
     evt.preventDefault() 
-    try{
+    try{//<3
       const params = await context.params;//New
       const id = params.id;//New
       const token1 = localStorage.getItem('token');//New
@@ -84,20 +88,20 @@ function DeleteItem(context){
       alert(jsonData.message)  
       router.push('/') 
       router.refresh()
-    }
-    catch(err){
+    }//3>
+    catch(err){//<3
       console.log(`-- ${path}.DeleteItem()#3:err=`); 
       console.dir(err);//Added
       alert('アイテム削除失敗') 
-    }
-  }
+    }//3>
+  }//2>
   //======================================================================
-  if( loginUserEmail === email ){
+  if( loginUserEmail === email ){//<2
     if( trcLev >= 1 ){
       console.log(`-- ${path}.DeleteItem()#4:image=`);
       console.dir(image);
     }
-    if( image !== '' ){
+    if( image !== '' ){//<3
       return (
         //======================================================================
         <div>
@@ -112,8 +116,8 @@ function DeleteItem(context){
         </div>
         //======================================================================
       );   
-    }
-    else{
+    }//3>
+    else{//<3
       return (
         //======================================================================
         <div>
@@ -121,9 +125,9 @@ function DeleteItem(context){
         </div>
         //======================================================================
       );
-    }
-  }
-  else{
+    }//3>
+  }//2>
+  else{//<2
     return (
       //======================================================================
       <div>
@@ -131,7 +135,7 @@ function DeleteItem(context){
       </div>
       //======================================================================
     );
-  }     
-}
+  }//2>     
+}//1>
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 export default DeleteItem
